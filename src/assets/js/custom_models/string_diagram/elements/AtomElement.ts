@@ -6,18 +6,28 @@ export class AtomElement extends ModelElement {
     public constructor(currentModel:any){
         super(
             "morphism.png",
-            "atom",
-            50,
-            50,
+            "function",
+            70,
+            70,
             "shape=rectangle",
-            "Atom",
+            "Function",
             currentModel
         );
 
         let properties = this.getProperties();
         properties.push(
             { 
-                "id":"selected", "label": "Selected", "defValue":"false", 
+                "id":"inputs", "label": "Inputs", "defValue":"", 
+                "inputType":"text", "disabled":"false", "display":"true", 
+                "onChange": () => {}
+            },
+            { 
+                "id":"outputs", "label": "Outputs", "defValue":"", 
+                "inputType":"text", "disabled":"false", "display":"true", 
+                "onChange": () => {}
+            },
+            { 
+                "id":"selected", "label": "Morphism", "defValue":"false", 
                 "inputType":"checkbox", "disabled":"false", "display":"true", 
                 "onChange":this.getOnChangeSelectedFunction()
             }
