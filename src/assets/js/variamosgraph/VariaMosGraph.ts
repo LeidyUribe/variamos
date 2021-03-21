@@ -1,4 +1,4 @@
-import { mxgraphFactory } from 'ts-mxgraph';
+import { mxgraphFactory, mxgraph } from 'ts-mxgraph';
 import { Button } from './Button';
 import { ConfigButtonActions } from './ConfigButtonActions';
 import { ConfigElements } from './ConfigElements';
@@ -20,11 +20,11 @@ const {
  * @author Daniel Correa <dcorreab@eafit.edu.co>
  */
 export class VariaMosGraph {
-  private graph:any; // mxGraph (mxGraph)
+  private graph!:mxgraph.mxGraph; // mxGraph (mxGraph)
 
-  private model:any; // mxGraphModel (mxGraphModel)
+  private model:mxgraph.mxGraphModel; // mxGraphModel (mxGraphModel)
 
-  private keyHandler:any; // mxKeyHandler (mxKeyHandler)
+  private keyHandler!:mxgraph.mxKeyHandler; // mxKeyHandler (mxKeyHandler)
 
   private modelType:string = ''; // current model type - example feature
 
@@ -58,7 +58,7 @@ export class VariaMosGraph {
 
   private $modal:any; // references modalPlugin
 
-  private modelUtil:any; // ModelUtil
+  private modelUtil!:ModelUtil; // ModelUtil
 
   private configApp:any; // references current configApp (ConfigApp)
 

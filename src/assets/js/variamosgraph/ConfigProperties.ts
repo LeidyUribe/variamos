@@ -1,4 +1,5 @@
-import { mxgraphFactory } from 'ts-mxgraph';
+import { mxgraph, mxgraphFactory } from 'ts-mxgraph';
+import type { VariaMosGraph } from './VariaMosGraph';
 
 const {
   mxEvent,
@@ -9,9 +10,9 @@ const {
  * @author Daniel Correa <dcorreab@eafit.edu.co>
  */
 export class ConfigProperties {
-  private vGraph:any; // VariaMos Graph
+  private vGraph:VariaMosGraph; // VariaMos Graph
 
-  public constructor(vGraph:any) {
+  public constructor(vGraph:VariaMosGraph) {
     this.vGraph = vGraph;
   }
 
@@ -32,7 +33,7 @@ export class ConfigProperties {
   }
 
   // method to display properties when element selected (cell)
-  public selectionChanged(configPropertiesObject:any) {
+  public selectionChanged(configPropertiesObject:ConfigProperties) {
     configPropertiesObject.vGraph.getGraph().container.focus();
     configPropertiesObject.vGraph.getDivProperties().innerHTML = '';
     const cell = configPropertiesObject.vGraph.getGraph().getSelectionCell();
@@ -102,7 +103,7 @@ export class ConfigProperties {
   }
 
   // set the porperty id, for vertex is id, for edge is source plus target
-  public setIdProperty(cell:any) {
+  public setIdProperty(cell:mxgraph.mxCell) {
     const idSection = document.createElement('div');
     idSection.className = 'property-id-section';
     if (cell.isVertex()) {
@@ -114,7 +115,12 @@ export class ConfigProperties {
   }
 
   // create a checkbox field
-  public createCheckboxField(graph:any, attribute:any, cell:any, currentProperties:any) {
+  public createCheckboxField(
+    graph:mxgraph.mxGraph,
+    attribute:any,
+    cell:mxgraph.mxCell,
+    currentProperties:any,
+  ) {
     const input = document.createElement('input');
     input.setAttribute('type', 'checkbox');
     input.id = `property-${attribute.nodeName}`;
@@ -131,7 +137,12 @@ export class ConfigProperties {
   }
 
   // create a select field
-  public createSelectField(graph:any, attribute:any, cell:any, currentProperties:any) {
+  public createSelectField(
+    graph:mxgraph.mxGraph,
+    attribute:any,
+    cell:mxgraph.mxCell,
+    currentProperties:any,
+  ) {
     const values = currentProperties.inputValues;
     const input = document.createElement('select');
     input.id = `property-${attribute.nodeName}`;
@@ -153,7 +164,12 @@ export class ConfigProperties {
   }
 
   // create a text field
-  public createTextField(graph:any, attribute:any, cell:any, currentProperties:any) {
+  public createTextField(
+    graph:mxgraph.mxGraph,
+    attribute:any,
+    cell:mxgraph.mxCell,
+    currentProperties:any,
+  ) {
     const input = document.createElement('input');
     input.setAttribute('type', 'text');
     input.id = `property-${attribute.nodeName}`;
@@ -166,7 +182,7 @@ export class ConfigProperties {
   }
 
   // verify if the property should be displayed or not
-  public checkCustomDisplay(cell:any, currentProperties:any) {
+  public checkCustomDisplay(cell:mxgraph.mxCell, currentProperties:any) {
     if (currentProperties.display) {
       if (currentProperties.display == 'basedOnPropertyValue') {
         if (currentProperties.displayIfValue
@@ -206,7 +222,7 @@ export class ConfigProperties {
   }
 
   // execute actions if the content of the input is changed
-  public executeApplyHandler(graph:any, input:any, cell:any,
+  public executeApplyHandler(graph:mxgraph.mxGraph, input:any, cell:mxgraph.mxCell,
     attributeNodeName:any, currentProperties:any) {
     this.applyCustomFunctions(input, cell, currentProperties);
     const applyHandler = function anonymousApplyHandler() {
@@ -254,7 +270,7 @@ export class ConfigProperties {
   }
 
   // apply the actions to the inputs
-  public applyCustomFunctions(input:any, cell:any, currentProperties:any) {
+  public applyCustomFunctions(input:any, cell:mxgraph.mxCell, currentProperties:any) {
     if (currentProperties.onChange) {
       input.setAttribute('data-cell-id', cell.getId());
       /* eslint no-param-reassign: "off" */

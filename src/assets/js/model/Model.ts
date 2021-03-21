@@ -1,3 +1,5 @@
+import type { ModelUtil } from '../variamosgraph/ModelUtil';
+
 /**
  * @author Daniel Correa <dcorreab@eafit.edu.co>
  */
@@ -12,7 +14,7 @@ export abstract class Model {
 
   private constraints?:any = []; // list of constraints between elements
 
-  private modelUtil?:any; // ModelUtil
+  private modelUtil!: ModelUtil; // ModelUtil
 
   private customElementTexts?:any; // custom element texts to be displayed
 

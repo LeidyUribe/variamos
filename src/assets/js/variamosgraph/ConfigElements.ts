@@ -1,4 +1,5 @@
 import { mxgraphFactory } from 'ts-mxgraph';
+import type { VariaMosGraph } from './VariaMosGraph';
 
 const {
   mxUtils, mxCell, mxGeometry, mxToolbar, mxConstants,
@@ -8,11 +9,11 @@ const {
  * @author Daniel Correa <dcorreab@eafit.edu.co>
  */
 export class ConfigElements {
-  private vGraph:any; // VariaMos Graph
+  private vGraph:VariaMosGraph; // VariaMos Graph
 
   private toolbar:any; // toolbar (mxToolbar)
 
-  public constructor(vGraph:any) {
+  public constructor(vGraph:VariaMosGraph) {
     this.vGraph = vGraph;
   }
 

@@ -1,3 +1,5 @@
+import { Model } from './Model';
+
 /**
  * @author Daniel Correa <dcorreab@eafit.edu.co>
  */
@@ -14,12 +16,12 @@ export abstract class ModelElement {
 
   private label:string;
 
-  private currentModel:any; // references the current model
+  private currentModel: Model; // references the current model
 
   private properties:any = [];
 
   public constructor(icon:string, type:string, width:number, height:number,
-    style:string, label:string, currentModel:any) {
+    style:string, label:string, currentModel:Model) {
     this.icon = icon;
     this.type = type;
     this.width = width;

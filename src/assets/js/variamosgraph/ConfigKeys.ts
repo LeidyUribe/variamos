@@ -1,10 +1,11 @@
+import type{ VariaMosGraph } from './VariaMosGraph';
 /**
  * @author Daniel Correa <dcorreab@eafit.edu.co>
  */
 export class ConfigKeys {
-  private vGraph:any; // VariaMos Graph
+  private vGraph:VariaMosGraph; // VariaMos Graph
 
-  public constructor(vGraph:any) {
+  public constructor(vGraph:VariaMosGraph) {
     this.vGraph = vGraph;
   }
 

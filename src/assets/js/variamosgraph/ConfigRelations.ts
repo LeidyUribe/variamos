@@ -1,4 +1,5 @@
 import { mxgraphFactory } from 'ts-mxgraph';
+import type { VariaMosGraph } from './VariaMosGraph';
 
 const { mxUtils } = mxgraphFactory({ mxLoadResources: false, mxLoadStylesheets: false });
 
@@ -6,9 +7,9 @@ const { mxUtils } = mxgraphFactory({ mxLoadResources: false, mxLoadStylesheets: 
  * @author Daniel Correa <dcorreab@eafit.edu.co>
  */
 export class ConfigRelations {
-  private vGraph:any; // VariaMos Graph
+  private vGraph:VariaMosGraph; // VariaMos Graph
 
-  public constructor(vGraph:any) {
+  public constructor(vGraph:VariaMosGraph) {
     this.vGraph = vGraph;
   }
 
