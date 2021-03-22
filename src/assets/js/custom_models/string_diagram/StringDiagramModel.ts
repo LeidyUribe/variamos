@@ -1,4 +1,5 @@
 import { Model } from '../../model/Model';
+import { functionEdgesStyles, ObjectStyleToStringStyle } from './elements/functionShape';
 
 export class StringDiagramModel extends Model {
   public constructor() {
@@ -23,6 +24,16 @@ export class StringDiagramModel extends Model {
 
     ];
     this.setConstraints(constraints);
+
+    const relationStyles = this.getRelationStyles();
+    relationStyles.push(
+      {
+        source: ['function'],
+        target: ['function'],
+        style: ObjectStyleToStringStyle(functionEdgesStyles),
+      },
+    );
+    this.setRelationStyles(relationStyles);
   }
 
   public customConstraintsRelations(graph:any, source:any, target:any) {

@@ -1,6 +1,8 @@
 import { mxgraph, mxgraphFactory } from 'ts-mxgraph';
+
 import { ModelElement } from '../../../model/ModelElement';
 import type { StringDiagramModel } from '../StringDiagramModel';
+import { functionEdgesStyles, functionStyles, FUNCTION_SHAPE_STYLE } from './functionShape';
 
 const {
   mxImage,
@@ -11,7 +13,7 @@ const {
 function createVertex(
   graph: mxgraph.mxGraph,
   cell: mxgraph.mxCell,
-  value: any,
+  value: string,
   offsetY: number,
   style: string,
   getVertexOffsetX: (cell: mxgraph.mxCell, vertex: mxgraph.mxCell) => number,
@@ -32,13 +34,14 @@ export class FunctionElement extends ModelElement {
       'function',
       70,
       70,
-      'shape=rectangle',
+      FUNCTION_SHAPE_STYLE,
       'Function',
       currentModel,
     );
 
-    const properties = this.getProperties();
     const graph = this.getCurrentModel().getModelUtil().getVGraph().getGraph();
+    graph.getStylesheet().putCellStyle(FUNCTION_SHAPE_STYLE, functionStyles);
+    const properties = this.getProperties();
     properties.push(
       {
         id: 'inputs',
@@ -65,24 +68,10 @@ export class FunctionElement extends ModelElement {
         inputType: 'checkbox',
         disabled: 'false',
         display: 'true',
-        onChange: this.getOnChangeSelectedFunction(),
+        onChange: () => {},
       },
     );
     this.setProperties(properties);
-  }
-
-  public getOnChangeSelectedFunction() {
-    const graph = this.getCurrentModel().getModelUtil().getVGraph().getGraph();
-    const onChangeSelectedFunction = function (this:any) {
-      const overlay = new mxCellOverlay(new mxImage('/img/check.png', 16, 16), 'Overlay tooltip');
-      const dataCellId = this.getAttribute('data-cell-id');
-      if (this.checked) {
-        graph.addCellOverlay(graph.getModel().getCell(dataCellId), overlay);
-      } else {
-        graph.removeCellOverlay(graph.getModel().getCell(dataCellId));
-      }
-    };
-    return onChangeSelectedFunction;
   }
 
   private createHandler(
@@ -90,21 +79,11 @@ export class FunctionElement extends ModelElement {
     style: string,
     getVertexOffsetX: (cell: mxgraph.mxCell, vertex: mxgraph.mxCell) => number,
   ) {
-    return function handler(event: any) {
-      // @ts-ignore
-      const dataCellId: string = this.getAttribute('data-cell-id');
-      // @ts-ignore
+    return function handler(this: HTMLElement, event: any) {
+      const dataCellId = this.getAttribute('data-cell-id') || '';
       const currentCell = graph.getModel().getCell(dataCellId);
 
       const attribute: string = event.target.value || '';
-
-      if (currentCell.getChildCount() && attribute.length === 0) {
-        currentCell.children.forEach((_, index) => {
-          console.log(currentCell, index);
-          const child = currentCell.remove(index);
-          console.log(currentCell, index, child);
-        });
-      }
 
       const getOffsetY = (pos: number, total: number) => {
         const section = currentCell.geometry.height / total;

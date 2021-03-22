@@ -18,9 +18,9 @@ export abstract class Model {
 
   private customElementTexts?:any; // custom element texts to be displayed
 
-  private relationProperties:any = []; // list of relation properties between elements
+  private relationProperties:any[] = []; // list of relation properties between elements
 
-  private relationStyles:any = []; // list of relation styles between elements
+  private relationStyles:any[] = []; // list of relation styles between elements
 
   public constructor(type:string, elementClassNames:string[]) {
     this.type = type;
