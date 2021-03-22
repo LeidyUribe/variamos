@@ -2,11 +2,16 @@ import { mxgraph, mxgraphFactory } from 'ts-mxgraph';
 
 import { ModelElement } from '../../../model/ModelElement';
 import type { StringDiagramModel } from '../StringDiagramModel';
-import { functionEdgesStyles, functionStyles, FUNCTION_SHAPE_STYLE } from './functionShape';
+// import {   } from './functionShape';
+import {
+  functionStyles,
+  FUNCTION_SHAPE_STYLE,
+  leftVertexStyle,
+  objectStyleToStringStyle,
+  rightVertexStyle,
+} from './functionStyles';
 
 const {
-  mxImage,
-  mxCellOverlay,
   mxPoint,
 } = mxgraphFactory({ mxLoadResources: false, mxLoadStylesheets: false });
 
@@ -22,10 +27,6 @@ function createVertex(
   vertex.geometry.relative = true;
   vertex.geometry.offset = new mxPoint(getVertexOffsetX(cell, vertex), offsetY - 10);
 }
-
-const vertexStyle = 'shape=line;verticalAlign=middle;fontSize=10;fontColor=black;strokeColor=black;';
-const leftVertexStyle = `${vertexStyle}align=left;routingCenterX=-0.5;spacingLeft=12;`;
-const rightVertexStyle = `${vertexStyle}align=right;routingCenterX=0.5;spacingRight=12;`;
 
 export class FunctionElement extends ModelElement {
   public constructor(currentModel: StringDiagramModel) {
@@ -50,7 +51,11 @@ export class FunctionElement extends ModelElement {
         inputType: 'text',
         disabled: 'false',
         display: 'true',
-        onChange: this.createHandler(graph, leftVertexStyle, (_, vertex) => -vertex.geometry.width),
+        onChange: this.createHandler(
+          graph,
+          objectStyleToStringStyle(leftVertexStyle),
+          (_, vertex) => -vertex.geometry.width,
+        ),
       },
       {
         id: 'outputs',
@@ -59,7 +64,11 @@ export class FunctionElement extends ModelElement {
         inputType: 'text',
         disabled: 'false',
         display: 'true',
-        onChange: this.createHandler(graph, rightVertexStyle, (cell) => cell.geometry.width),
+        onChange: this.createHandler(
+          graph,
+          objectStyleToStringStyle(rightVertexStyle),
+          (cell) => cell.geometry.width,
+        ),
       },
       {
         id: 'selected',

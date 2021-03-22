@@ -73,7 +73,6 @@ export class ConfigRelations {
       // set custom relation styles
       const currentRelStyles = currentModel.relationStyles;
       for (let i = 0; i < currentRelStyles.length; i += 1) {
-        debugger;
         if (currentRelStyles[i].type == 'and') {
           if (
             (currentRelStyles[i].source.indexOf(source.getAttribute('type')) > -1)

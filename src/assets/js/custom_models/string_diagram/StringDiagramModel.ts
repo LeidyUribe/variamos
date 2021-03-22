@@ -1,13 +1,14 @@
 import { Model } from '../../model/Model';
-import { functionEdgesStyles, ObjectStyleToStringStyle } from './elements/functionShape';
+import { registerFunctionShape } from './elements/functionShape';
+import { functionEdgesStyles, objectStyleToStringStyle } from './elements/functionStyles';
 
+registerFunctionShape();
 export class StringDiagramModel extends Model {
   public constructor() {
     super(
       'string_diagram',
       ['FunctionElement'],
     );
-
     let constraints = this.getConstraints();
     constraints = [
       {
@@ -30,7 +31,7 @@ export class StringDiagramModel extends Model {
       {
         source: ['function'],
         target: ['function'],
-        style: ObjectStyleToStringStyle(functionEdgesStyles),
+        style: objectStyleToStringStyle(functionEdgesStyles),
       },
     );
     this.setRelationStyles(relationStyles);
