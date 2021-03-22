@@ -29,8 +29,8 @@ export class StringDiagramModel extends Model {
     const relationStyles = this.getRelationStyles();
     relationStyles.push(
       {
-        source: ['function'],
-        target: ['function'],
+        source: [undefined],
+        target: [undefined],
         style: objectStyleToStringStyle(functionEdgesStyles),
       },
     );
@@ -38,17 +38,14 @@ export class StringDiagramModel extends Model {
   }
 
   public customConstraintsRelations(graph:any, source:any, target:any) {
-    let returnConstraintRelations = {};
-
     const output = source.value;
     const input = target.value;
 
-    if (!output || !input) returnConstraintRelations = { message: 'Add types for input/output' };
+    let message = {};
 
-    // output === input ?
-    //   undefined :
-    //   returnConstraintRelations = { message: 'Invalid type' };
+    if (!output || !input) message = { message: 'Add types for input/output' };
+    else if (output !== input) message = { message: 'Invalid type' };
 
-    return returnConstraintRelations;
+    return message;
   }
 }

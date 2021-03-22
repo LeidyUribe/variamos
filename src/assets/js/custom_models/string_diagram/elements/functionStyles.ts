@@ -13,6 +13,16 @@ export const objectStyleToStringStyle = (styleObject: Record<string, any>) => Ob
   .map(([key, value]) => `${key}=${value};`)
   .reduce((style, current) => style + current, '');
 
+export const setStylesToHTMLElement = (
+  element: HTMLElement,
+  styles: Partial<HTMLElement['style']>,
+) => Object
+  .entries(styles)
+  /* eslint-disable no-param-reassign */
+  // @ts-ignore
+  .forEach(([key, value]) => { element.style[key] = value; });
+  /* eslint-enable no-param-reassign */
+
 export const functionStyles = {
   [mxConstants.STYLE_SHAPE]: FUNCTION_SHAPE,
   [mxConstants.STYLE_FILLCOLOR]: 'white',
@@ -55,4 +65,17 @@ export const rightVertexStyle = {
   [mxConstants.STYLE_ALIGN]: mxConstants.ALIGN_RIGHT,
   [mxConstants.STYLE_ROUTING_CENTER_X]: 0.5,
   [mxConstants.STYLE_SPACING_RIGHT]: 12,
+};
+
+// TODO: define as css styles
+export const edgeLabelContainer = {
+  backgroundColor: 'white',
+  flex: '1',
+  alignContent: 'center',
+  alignItems: 'center',
+};
+
+export const edgeLabelContent = {
+  fontSize: '20px',
+  color: 'black',
 };

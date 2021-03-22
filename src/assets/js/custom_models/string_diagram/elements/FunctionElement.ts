@@ -2,7 +2,6 @@ import { mxgraph, mxgraphFactory } from 'ts-mxgraph';
 
 import { ModelElement } from '../../../model/ModelElement';
 import type { StringDiagramModel } from '../StringDiagramModel';
-// import {   } from './functionShape';
 import {
   functionStyles,
   FUNCTION_SHAPE_STYLE,
@@ -10,6 +9,9 @@ import {
   objectStyleToStringStyle,
   rightVertexStyle,
 } from './functionStyles';
+import { stringDiagramLabels } from './getEdgeLabel';
+
+const topLabel = ';verticalLabelPosition=top;verticalAlign=bottom';
 
 const {
   mxPoint,
@@ -41,6 +43,8 @@ export class FunctionElement extends ModelElement {
     );
 
     const graph = this.getCurrentModel().getModelUtil().getVGraph().getGraph();
+    graph.setTooltips(true);
+    stringDiagramLabels(graph);
     graph.getStylesheet().putCellStyle(FUNCTION_SHAPE_STYLE, functionStyles);
     const properties = this.getProperties();
     properties.push(
@@ -77,7 +81,7 @@ export class FunctionElement extends ModelElement {
         inputType: 'checkbox',
         disabled: 'false',
         display: 'true',
-        onChange: () => {},
+        onChange: this.createMorphismCheckboxHandler(),
       },
     );
     this.setProperties(properties);
@@ -111,6 +115,26 @@ export class FunctionElement extends ModelElement {
           style,
           getVertexOffsetX,
         ));
+    };
+  }
+
+  // FIXME: it's not changing the style
+  private createMorphismCheckboxHandler() {
+    const graph = this.getCurrentModel().getModelUtil().getVGraph().getGraph();
+    return function handler(this: HTMLElement) {
+      const dataCellId = this.getAttribute('data-cell-id') || '';
+      const currentCell = graph.getModel().getCell(dataCellId);
+      let checked = currentCell.getAttribute('selected');
+      checked = checked === 'true' ? 'false' : 'true';
+      currentCell.setAttribute('selected', checked);
+
+      graph.getModel().beginUpdate();
+      if (checked === 'true') {
+        currentCell.setStyle(currentCell.getStyle() + topLabel);
+      } else {
+        currentCell.setStyle(currentCell.getStyle().split(topLabel).join(''));
+      }
+      graph.getModel().endUpdate();
     };
   }
 }

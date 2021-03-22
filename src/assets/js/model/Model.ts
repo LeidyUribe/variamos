@@ -1,4 +1,5 @@
 import type { ModelUtil } from '../variamosgraph/ModelUtil';
+import { RelationStyle } from './RelationStyle';
 
 /**
  * @author Daniel Correa <dcorreab@eafit.edu.co>
@@ -20,7 +21,7 @@ export abstract class Model {
 
   private relationProperties:any[] = []; // list of relation properties between elements
 
-  private relationStyles:any[] = []; // list of relation styles between elements
+  private relationStyles: RelationStyle[] = []; // list of relation styles between elements
 
   public constructor(type:string, elementClassNames:string[]) {
     this.type = type;
