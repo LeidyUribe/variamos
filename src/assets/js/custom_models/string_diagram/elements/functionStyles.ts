@@ -33,6 +33,12 @@ export const functionStyles = {
   [mxConstants.STYLE_STROKEWIDTH]: 3,
 };
 
+export const functionStylesTopLabel = {
+  ...functionStyles,
+  [mxConstants.STYLE_VERTICAL_LABEL_POSITION]: 'top',
+  [mxConstants.STYLE_VERTICAL_ALIGN]: 'bottom',
+};
+
 export const functionEdgesStyles = {
   [mxConstants.STYLE_SHAPE]: mxConstants.SHAPE_CONNECTOR,
   [mxConstants.STYLE_ROUNDED]: 1,
