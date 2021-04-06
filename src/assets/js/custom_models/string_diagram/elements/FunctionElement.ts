@@ -14,6 +14,8 @@ import { stringDiagramLabels } from './getEdgeLabel';
 
 const {
   mxPoint,
+  mxClipboard,
+  mxEvent,
 } = mxgraphFactory({ mxLoadResources: false, mxLoadStylesheets: false });
 
 function createVertex(
@@ -84,6 +86,46 @@ export class FunctionElement extends ModelElement {
       },
     );
     this.setProperties(properties);
+    const parents: any = new Object();
+
+    mxEvent.addListener(document, 'copy', function (evt: any) {
+      const cells = graph.getSelectionCells();
+      var result = graph.getExportableCells(cells);
+
+      for (var i = 0; i < result.length; i++) {
+        parents[i] = graph.model.getParent(cells[i]);
+      }
+
+      mxClipboard.insertCount = 1;
+      mxClipboard.setCells(graph.cloneCells(result));
+
+      return result;
+
+    });
+
+    mxEvent.addListener(document, 'paste', function (evt: any) {
+      if (!mxClipboard.isEmpty()) {
+        var cells = graph.getImportableCells(mxClipboard.getCells());
+        var delta = mxClipboard.insertCount * mxClipboard.STEPSIZE;
+        var parent = graph.getDefaultParent();
+
+        graph.model.beginUpdate();
+        try {
+          for (var i = 0; i < cells.length; i++) {
+            var tmp = (parents != null && graph.model.contains(parents[i])) ?
+              parents[i] : parent;
+            cells[i] = graph.importCells([cells[i]], delta, delta, tmp)[0];
+          }
+        }
+        finally {
+          graph.model.endUpdate();
+        }
+
+        // Increments the counter and selects the inserted cells
+        mxClipboard.insertCount++;
+        graph.setSelectionCells(cells);
+      }
+    })
   }
 
   private createHandler(
